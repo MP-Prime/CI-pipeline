@@ -1,0 +1,9 @@
+all:
+  children:
+    test:
+      hosts:
+        IP_OR_DNS_OF_HOST_1:
+        IP_OR_DNS_OF_HOST_2:
+      vars:
+        ansible_user: USER
+        ansible_ssh_private_key_file: '~/.ssh/ansible_id_rsa'

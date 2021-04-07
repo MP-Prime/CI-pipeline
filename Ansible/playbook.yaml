@@ -1,0 +1,18 @@
+- hosts: all
+  become: true
+  tasks:
+  - name: Install Docker and Docker compose
+    script: docker_ins.sh
+    meta: reset_connection
+
+- hosts: localhost
+  connection: local
+  become: true
+  tasks:
+  - name: Install AWS CLI
+    script: aws__cli_ins.sh
+  - name: Install Jenkins
+    script: jenkins_ins.sh
+  - name: Install Kubernetes
+    script: kube_ins.sh
+    
