@@ -5,7 +5,7 @@ resource "aws_security_group" "EC2-wsg"{
       from_port = 8080
       to_port   = 8080
       protocol = "tcp"
-      cidr_blocks = [var.CIDR]
+      cidr_blocks = [var.open]
     }
 
     ingress{
