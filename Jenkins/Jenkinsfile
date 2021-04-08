@@ -3,8 +3,7 @@ pipeline {
   stages {
     stage("Clone repository") {
       steps {
-        sh "rm -r ./CI-Pipeline-Appclone"
-        sh "rmdir CI-Pipeline-Appclone"  
+        sh 'if [ -d "CI-Pipeline-Appclone" ]; then rm -Rf CI-Pipeline-Appclone; fi'
         sh "git clone https://github.com/MP-Prime/CI-Pipeline-Appclone"
       }
     }  
@@ -13,7 +12,7 @@ pipeline {
         sh "sudo apt update"
         sh  "sudo apt install -y python3-pip"
         sh "cd ~"
-        sh "pip install -r requirements.txt"
+        sh "pip3 install -r requirements.txt"
         sh "python3 app.py"
       }
     }  
