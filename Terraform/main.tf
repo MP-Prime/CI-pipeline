@@ -10,14 +10,14 @@ module "vpc"{
 module "sg"{
     source = "./SG"
     name = "WebServerSG"
-    SG = module.vpc.vpc_id
+    vpc = module.vpc.vpc_id
 }
 
 
 module "ec2"{
     source = "./EC2"
     subnet_id = module.vpc.public_subnet_id
-    sg_ids = [module.sg.wsg_id]
+    sg_ids = [module.sg.EC2_wsg_id]
 }
 
 module "rds"{
@@ -26,5 +26,5 @@ module "rds"{
     source = "./RDS"
     subnet_id = module.vpc.public_subnet_id
     subnet_2_id = module.vpc.public_subnet_2_id
-    sg_ids = [module.sg.wsg_id]
+    sg_ids = [module.sg.RDS_wsg_id]
 }

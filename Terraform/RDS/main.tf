@@ -11,7 +11,7 @@ resource "aws_db_instance" "live_rds" {
    db_subnet_group_name  = aws_db_subnet_group.default.name
    vpc_security_group_ids = var.sg_ids
    skip_final_snapshot = true
-   identifier = "ci_pipeline_live_rds"
+   identifier = "live"
 
    tags ={
       Name = "live_rds"
@@ -32,7 +32,7 @@ resource "aws_db_instance" "test_rds" {
    db_subnet_group_name  = aws_db_subnet_group.default.name
    vpc_security_group_ids = var.sg_ids
    skip_final_snapshot = true
-   identifier = "ci_pipeline_test_rds"
+   identifier = "test"
 
    tags ={
       Name = "test_rds"

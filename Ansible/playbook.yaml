@@ -1,18 +1,26 @@
 - hosts: all
   become: true
   tasks:
-  - name: Install Docker and Docker compose
+  - name: Install Docker
     script: docker_ins.sh
+  - name: Reset connection
     meta: reset_connection
+  - name: Install MySQL and python
+    script: mysql_ins.sh
 
-- hosts: localhost
-  connection: local
+- hosts: 18.135.28.229
   become: true
   tasks:
   - name: Install AWS CLI
-    script: aws__cli_ins.sh
+    script: aws_cli_ins.sh
   - name: Install Jenkins
     script: jenkins_ins.sh
+  - name: 'Display initial admin password'
+    shell: cd .. && cat jenkins/.jenkins/secrets/initialAdminPassword
+    register: password
+
+  - debug: msg="password = {{password.stdout}}"  
+  
   - name: Install Kubernetes
     script: kube_ins.sh
     

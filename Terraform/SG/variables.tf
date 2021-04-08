@@ -8,11 +8,10 @@ variable "open" {
 }
 
 variable "CIDR" {
-    default     = "0.0.0.0/0"
-    // change later
+    default     = "35.177.131.234/32"
 }
 
-variable "SG" {
+variable "vpc" {
     default     = "null"
 }
 
