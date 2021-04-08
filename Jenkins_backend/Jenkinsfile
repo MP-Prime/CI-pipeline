@@ -1,0 +1,34 @@
+pipeline {
+  agent any
+  stages {
+    stage("Clone repository") {
+      steps {
+        sh 'if [ -d "CI-Pipeline" ]; then rm -Rf CI-Pipeline; fi'
+        sh "git clone https://github.com/MP-Prime/CI-Pipeline"
+      }
+    }  
+    stage("Test backend") {
+      steps {
+        sh "sudo apt update"
+        sh  "sudo apt install -y python3-pip"
+        sh "ls -la"
+        sh "cd CI-Pipeline/backend/tests && pytest && pytest --cov application"
+      }
+    }  
+    stage("Upload to Docker") {
+      steps {
+        sh "cd CI-Pipeline/Jenkins_backend && sh push_be.sh"
+      }
+    }
+    stage("Get from Docker") {
+      steps {
+        sh "cd CI-Pipeline/Jenkins_backend && sh pull_be.sh"
+      }
+    }  
+    stage("Deploy in Kubernetes") {
+      steps {
+        sh "cd CI-Pipeline/Jenkins_backend && sh deploy_be.sh"
+      }
+    }
+  }
+}
