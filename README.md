@@ -6,6 +6,7 @@ A continuous integration pipeline to successfully deploy [a provided application
 * [Introduction](#Introduction)
 * [Planning](#Planning)
 * [Setup](#Setup)
+* [Deployment](#Deployment)
 
 ### **Introduction**
 This repository hosts the continuous integration (CI) pipeline that is used in an AWS environment to test and deploy an application. It uses Terraform, Ansible, Jenkins, Docker and Kubernetes to execute the CI pipeline.
@@ -64,3 +65,8 @@ After installing Ansible, we can now use Ansible to configure the EC2 instances 
 
 Please note that the initial Jenkins password will be displayed after "password:" under debug but I have blanked it out for security reasons.
 
+
+### **Deployment**
+Firstly, edit permissions in the sudo visudo file on the Jenkins EC2 to allow the Jenkins user access. Then, add three different environment variables on the EC2: the database URI, test database URI and the secret key (please note, I have made up a sample secret key that I don't use in my Jenkinsfile). You can declare the variables using EXPORT in ~/.bashrc.
+
+I use [my other repository](https://github.com/MP-Prime/CI-Pipeline-Appclone) in conjunction with this one to attempt testing and deployment of the application.
