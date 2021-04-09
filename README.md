@@ -67,6 +67,6 @@ Please note that the initial Jenkins password will be displayed after "password:
 
 
 ### **Deployment**
-Firstly, edit permissions in the sudo visudo file on the Jenkins EC2 to allow the Jenkins user access. Then, add three different environment variables on the EC2: the database URI, test database URI and the secret key (please note, I have made up a sample secret key that I don't use in my Jenkinsfile). You can declare the variables using EXPORT in ~/.bashrc.
+Firstly, edit permissions in the sudo visudo file on the Jenkins EC2 to allow the Jenkins user access. Then, add three different environment variables on the EC2: the database URI, test database URI and the secret key (please note, I have made up a sample secret key that I don't use in my Jenkinsfile). You can declare the variables using EXPORT in ~/.bashrc. Use source ~/.bashrc to initiate the environment variables on the EC2.
 
 I use [my other repository](https://github.com/MP-Prime/CI-Pipeline-Appclone) in conjunction with this one to attempt testing and deployment of the application.
