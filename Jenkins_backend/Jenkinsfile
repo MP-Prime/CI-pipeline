@@ -1,10 +1,15 @@
 pipeline {
   agent any
+    environment {
+       DATABASE_URI = "mysql+pymysql://[username]:[password]@[host/endpoint]:3306/[database]"
+       SECRET_KEY = "averycoolkeyn4me"
+       TEST_DATABASE_URI = "mysql+pymysql://[username]:[password]@[host/endpoint]:3306/[database]"
+   }
   stages {
     stage("Clone repository") {
       steps {
-        sh 'if [ -d "CI-Pipeline" ]; then rm -Rf CI-Pipeline; fi'
-        sh "git clone https://github.com/MP-Prime/CI-Pipeline"
+        sh 'if [ -d "CI-Pipeline-Appclone" ]; then rm -Rf CI-Pipeline-Appclone; fi'
+        sh "git clone https://github.com/MP-Prime/CI-Pipeline-Appclone"
       }
     }  
     stage("Test backend") {
@@ -12,22 +17,22 @@ pipeline {
         sh "sudo apt update"
         sh  "sudo apt install -y python3-pip"
         sh "ls -la"
-        sh "cd CI-Pipeline/backend/tests && pytest && pytest --cov application"
+        sh "cd CI-Pipeline-Appclone/backend/tests && python3 -m pytest && pytest --cov application"
       }
     }  
     stage("Upload to Docker") {
       steps {
-        sh "cd CI-Pipeline/Jenkins_backend && sh push_be.sh"
+        sh "cd CI-Pipeline-Appclone && sh push_be.sh"
       }
     }
     stage("Get from Docker") {
       steps {
-        sh "cd CI-Pipeline/Jenkins_backend && sh pull_be.sh"
+        sh "cd CI-Pipeline-Appclone && sh pull_be.sh"
       }
     }  
     stage("Deploy in Kubernetes") {
       steps {
-        sh "cd CI-Pipeline/Jenkins_backend && sh deploy_be.sh"
+        sh "cd CI-Pipeline-Appclone && sh deploy_be.sh"
       }
     }
   }
