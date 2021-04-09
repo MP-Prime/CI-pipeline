@@ -1,0 +1,39 @@
+pipeline {
+  agent any
+    environment {
+       DATABASE_URI = "mysql+pymysql://[username]:[password]@[host/endpoint]:3306/[database]"
+       SECRET_KEY = "averycoolkeyn4me"
+       TEST_DATABASE_URI = "mysql+pymysql://[username]:[password]@[host/endpoint]:3306/[database]"
+    }
+  stages {
+    stage("Clone repository") {
+      steps {
+        sh 'if [ -d "CI-Pipeline-Appclone" ]; then rm -Rf CI-Pipeline-Appclone; fi'
+        sh "git clone https://github.com/MP-Prime/CI-Pipeline-Appclone"
+      }
+    }  
+    stage("Test frontend") {
+      steps {
+        sh "sudo apt update"
+        sh  "sudo apt install -y python3-pip"
+        sh "ls -la"
+        sh "cd CI-Pipeline-Appclone/frontend/tests && python3 -m pytest && pytest --cov application"
+      }
+    }  
+    stage("Upload to Docker") {
+      steps {
+        sh "cd CI-Pipeline-Appclone && sh push_fe.sh"
+      }
+    }
+    stage("Get from Docker") {
+      steps {
+        sh "cd CI-Pipeline-Appclone && sh pull_fe.sh"
+      }
+    }  
+    stage("Deploy in Kubernetes") {
+      steps {
+        sh "cd CI-Pipeline-Appclone && sh deploy_fe.sh"
+      }
+    }
+  }
+}
